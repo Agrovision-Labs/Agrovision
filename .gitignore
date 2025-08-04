@@ -1,0 +1,8 @@
+__pycache__/
+*.npy
+*.tif
+*.zip
+*.h5
+*.pt
+data/features/
+outputs/
