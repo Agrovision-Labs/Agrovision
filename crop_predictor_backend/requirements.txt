@@ -1,0 +1,11 @@
+flask
+tensorflow
+scikit-learn
+joblib
+numpy
+pandas
+earthengine-api
+gunicorn
+flask-cors
+firebase-admin
+google-cloud-firestore

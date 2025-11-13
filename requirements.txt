@@ -1,4 +1,0 @@
-openmapflow==0.8.3
-pandas
-matplotlib
-jupyter

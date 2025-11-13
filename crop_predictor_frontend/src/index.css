@@ -1,0 +1,68 @@
+/* --- Global Styles --- */
+body, html, #root {
+  height: 100vh; /* Make the app fill the entire screen */
+  width: 100vw;
+  margin: 0;
+  overflow: hidden; /* Stop the main page from scrolling */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+/* --- Main Page Layout --- */
+.page-content {
+  /* Calculate height minus the navbar (which is 60px) */
+  height: calc(100vh - 60px);
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* --- Reusable Button Style --- */
+.hero-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #fff;
+  background-color: #007bff; /* Primary Blue */
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.hero-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* --- NEW: Google Login Button Style --- */
+.google-login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 24px;
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+.google-login-button:hover {
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.google-login-button img {
+  width: 20px;
+  height: 20px;
+}

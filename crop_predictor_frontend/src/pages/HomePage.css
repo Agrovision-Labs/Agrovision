@@ -1,0 +1,40 @@
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  /* --- THIS IS THE NEW BACKGROUND --- */
+  background-image: 
+    /* 1. This is the dark overlay to make text readable */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    
+    /* 2. This is your local background image */
+    /* Make sure 'hero-background.jpg' is in your /public folder */
+    url('/hero-background.png');
+  
+  background-size: cover;
+  background-position: center;
+  /* --- END OF NEW BACKGROUND --- */
+}
+
+.hero-section {
+  max-width: 600px;
+}
+
+.hero-title {
+  font-size: 2.8em;
+  font-weight: 700;
+  color: #ffffff; /* --- White text --- */
+  margin-bottom: 16px;
+}
+
+.hero-subtitle {
+  font-size: 1.2em;
+  color: #f0f0f0; /* --- Light grey text --- */
+  line-height: 1.6;
+  margin-bottom: 32px;
+}

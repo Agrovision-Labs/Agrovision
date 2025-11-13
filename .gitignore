@@ -1,8 +1,21 @@
+# Python / Backend
 __pycache__/
-*.npy
-*.tif
-*.zip
-*.h5
-*.pt
-data/features/
-outputs/
+*.pyc
+.env
+ml_env/
+venv/
+*.pkl
+*.keras
+
+# Node / Frontend
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# macOS
+.DS_Store

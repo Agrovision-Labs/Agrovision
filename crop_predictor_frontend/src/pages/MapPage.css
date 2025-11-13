@@ -1,0 +1,327 @@
+/* --- Search Hub Styles (MUI) --- */
+.search-hub-container {
+  position: absolute;
+  top: 80px; /* 60px navbar + 20px padding */
+  left: 20px;
+  z-index: 1001; /* Above the map */
+  width: 320px;
+}
+
+.search-section {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.search-section:last-child {
+  border-bottom: none;
+}
+
+.search-section h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+/* This targets the MUI TextField */
+.location-search-input {
+  width: 100%;
+}
+
+.search-results {
+  list-style-type: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+}
+
+/* This targets the MUI ListItemButton */
+.search-results-item {
+  padding: 8px 16px !important;
+  font-size: 0.9em !important;
+}
+
+/* Coordinate Search */
+.coord-search-inputs {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start; /* Align items to the top */
+}
+
+/* Target the MUI TextField component */
+.coord-search-inputs .MuiTextField-root {
+  flex-grow: 1; /* Allow text fields to grow and share space */
+}
+
+/* Target the MUI Button */
+.coord-search-inputs .MuiButton-root {
+  flex-shrink: 0; /* Stop button from shrinking */
+  padding: 9px 15px; /* Manually adjust padding to match text fields */
+}
+
+.search-section button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1em;
+}
+.search-section button:hover {
+  background-color: #0056b3;
+}
+
+/* --- Map Page Layout --- */
+.map-page-container {
+  display: flex;
+  width: 100%;
+  height: 100%; 
+}
+
+/* --- Map --- */
+.map-container {
+  height: 100%; 
+  width: 100%;
+  flex-grow: 1; 
+  cursor: crosshair;
+  transition: width 0.5s ease-in-out;
+}
+.leaflet-container { 
+  height: 100%; 
+  width: 100%; 
+}
+
+/* --- Sidebar Panel --- */
+.results-panel {
+  width: 0;
+  flex-shrink: 0;
+  height: 100%; 
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+}
+.results-panel.open {
+  width: 380px; 
+}
+
+/* --- 1. THIS IS THE NO-SCROLL FIX --- */
+.panel-content {
+  padding: 20px;
+  overflow: hidden; /* <-- REMOVED overflow-y: auto */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 340px; 
+  height: 100%; /* <-- Make panel content fill the panel */
+  box-sizing: border-box; /* <-- Add box-sizing */
+}
+/* --- END OF FIX --- */
+
+/* --- Close Button --- */
+.close-panel-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  font-size: 1.5em;
+  font-weight: 300;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s, transform 0.2s;
+}
+.close-panel-btn:hover {
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* --- Panel States (UPDATED FOR NO-SCROLL) --- */
+.initial-state { text-align: center; padding-top: 40px; color: #777; }
+.results-state {
+  display: none;
+  height: 100%; /* <-- NEW: Make results fill space */
+  flex-grow: 1; /* <-- NEW: Make results fill space */
+}
+.results-state.visible { 
+  display: flex; /* <-- NEW: Use flex */
+  flex-direction: column; /* <-- NEW: Use flex */
+  animation: fadeIn 0.5s ease-in-out;
+}
+.loading-state { display: none; text-align: center; padding-top: 50px; }
+.loading-state.visible { display: block; }
+.loading-state p { font-weight: 500; color: #333; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Results --- */
+/* --- 2. LAYOUT FIX: Wrapper for the report --- */
+/* This class is used in the new MapPage.jsx */
+.prediction-report-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* This is the key */
+  height: 100%;
+  min-height: 0; /* Prevents flex overflow */
+}
+
+.report-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* This makes the content grow */
+  min-height: 0; /* Prevents overflow */
+}
+
+/* --- 3. LAYOUT FIX: Header styles --- */
+.prediction-header {
+  text-align: center;
+  flex-shrink: 0; /* <-- NEW: Stop header from shrinking */
+}
+.prediction-header h1 { 
+  margin-top: 0;
+  margin-bottom: 5px; 
+  font-size: 2.0em; /* <-- Reduced font size */
+}
+.prediction-header h1.CROP { color: #28a745; }
+.prediction-header h1.NON-CROP { color: #dc3545; }
+.prediction-header h1.WATER { color: #007bff; }
+.prediction-header h1.BARREN { color: #8B4513; }
+.prediction-header h1.OTHER { color: #6c757d; }
+
+.prediction-header .sub-label {
+  font-size: 1.0em; /* <-- Reduced font size */
+  color: #555;
+  font-weight: 500;
+  margin-top: -5px;
+  margin-bottom: 8px; /* <-- Reduced margin */
+}
+
+/* --- CONFIDENCE REMOVED --- */
+.prediction-header .confidence {
+  display: none; /* <-- This hides the confidence score */
+  font-size: 2.5em;
+  font-weight: 300;
+  margin: 10px 0;
+}
+.prediction-header .confidence-label {
+  font-size: 0.6em; 
+  color: #555; 
+  margin-left: 5px;
+}
+/* --- END CONFIDENCE REMOVED --- */
+
+.prediction-header .coords-box {
+  font-size: 0.85em; /* <-- Reduced font size */
+  color: #666;
+  background: rgba(244, 244, 244, 0.8);
+  padding: 6px; /* <-- Reduced padding */
+  border-radius: 4px; 
+  margin: 8px 0;
+}
+/* --- END OF HEADER STYLES --- */
+
+
+/* --- 4. LAYOUT FIX: Chart area styles --- */
+.chart-area {
+  flex-grow: 1; /* <-- NEW: This makes the chart area fill remaining space */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* <-- NEW: Crucial for flex-grow */
+}
+.chart-title {
+  margin-top: 10px; /* <-- Reduced margin */
+  margin-bottom: 8px; /* <-- Reduced margin */
+  font-size: 1.1em; /* <-- Reduced font size */
+  color: #333;
+  border-bottom: 2px solid #eee; 
+  padding-bottom: 5px;
+  flex-shrink: 0; /* <-- NEW */
+}
+.chart-wrapper {
+  position: relative;
+  flex-grow: 1; /* <-- NEW: Chart wrapper fills the chart-area */
+  height: auto; /* <-- NEW: Remove fixed height */
+}
+.download-button-mui {
+  margin-top: 15px !important;
+  font-weight: 600 !important;
+  padding: 10px 0 !important;
+  flex-shrink: 0; /* <-- NEW: Stop button from shrinking */
+}
+/* --- END OF CHART FIX --- */
+
+/* --- Skeleton Loader --- */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 15px;
+}
+
+/* --- Error State --- */
+.error-state h1 { color: #dc3545; }
+.error-state p {
+  background: #f8d7da; color: #721c24;
+  padding: 10px; border-radius: 5px;
+}
+
+/* --- Chart Toggle Buttons --- */
+.chart-toggle-buttons {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
+  margin-bottom: -5px; /* Pulls the title closer */
+}
+.chart-toggle-buttons button {
+  flex-grow: 1;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.chart-toggle-buttons button:hover {
+  background-color: #ddd;
+}
+.chart-toggle-buttons button.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+/* --- Tweak for Chart Title --- */
+.chart-title {
+  margin-top: 10px; /* Reduced top margin */
+}
+
+/* --- NEW: Year Selector Styles --- */
+/* (This class was empty in your file, leaving it empty) */
