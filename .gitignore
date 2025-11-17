@@ -4,8 +4,7 @@ __pycache__/
 .env
 ml_env/
 venv/
-*.pkl
-*.keras
+
 
 # Node / Frontend
 node_modules/

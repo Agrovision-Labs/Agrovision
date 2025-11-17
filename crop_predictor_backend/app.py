@@ -12,30 +12,44 @@ from flask_cors import CORS
 # --- NEW: Import Firebase Admin ---
 import firebase_admin
 from firebase_admin import credentials, firestore
-
 # --- 1. GEE, Firebase, and App Initialization ---
-try:
-    ee.Initialize(project="agrovision-47e38")
-    print("GEE Initialized.")
-except Exception as e:
-    print(f"GEE Initialization failed: {e}")
 
-# --- NEW: Initialize Firestore ---
+# --- THIS IS THE FIX ---
+# We will get the secret file path from the environment variable
+# that we set in Render.
+
+CRED_FILE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+
 try:
-    # We don't need a service account file if running in a Google Cloud env
-    # For local testing, you might need:
-    # cred = credentials.Certificate("path/to/serviceAccountKey.json")
-    # firebase_admin.initialize_app(cred)
-    firebase_admin.initialize_app()
+    if CRED_FILE:
+        # If the file path exists, use it for BOTH services
+        print(f"Using service account credentials from: {CRED_FILE}")
+        creds = credentials.Certificate(CRED_FILE)
+        firebase_admin.initialize_app(creds)
+
+        # This is the explicit GEE authentication
+        ee_creds = ee.ServiceAccountCredentials(creds.get_service_account_email(), CRED_FILE)
+        ee.Initialize(credentials=ee_creds, project="agrovision-47e38")
+
+    else:
+        # Fallback for local testing (if GOOGLE_APPLICATION_CREDENTIALS is not set)
+        print("WARNING: No 'GOOGLE_APPLICATION_CREDENTIALS' env var found. Using default auth.")
+        firebase_admin.initialize_app()
+        ee.Initialize(project="agrovision-47e38")
+
     db = firestore.client()
     print("Firestore Initialized.")
+    print("GEE Initialized.")
+
 except Exception as e:
-    print(f"Firestore Initialization failed: {e}")
+    print(f"CRITICAL: GEE or Firestore Initialization failed: {e}")
     db = None
+# --- END OF FIX ---
 
 app = Flask(__name__)
 CORS(app) 
 
+# (The rest of your app.py file stays exactly the same)
 # --- 2. Load Model, Scaler, and Config ---
 try:
     base_dir = os.path.dirname(os.path.abspath(__file__))
