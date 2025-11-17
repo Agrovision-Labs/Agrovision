@@ -12,42 +12,55 @@ from flask_cors import CORS
 # --- NEW: Import Firebase Admin ---
 import firebase_admin
 from firebase_admin import credentials, firestore
+import json # <-- NEW: Import JSON library
+
 # --- 1. GEE, Firebase, and App Initialization ---
 
-# --- THIS IS THE FIX ---
+# --- THIS IS THE FIX V2 ---
 # We will get the secret file path from the environment variable
-# that we set in Render.
-
-CRED_FILE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+# that we set in Render (e.g., 'google-credentials.json').
+CRED_FILE_PATH = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
 try:
-    if CRED_FILE:
-        # If the file path exists, use it for BOTH services
-        print(f"Using service account credentials from: {CRED_FILE}")
-        creds = credentials.Certificate(CRED_FILE)
-        firebase_admin.initialize_app(creds)
+    if CRED_FILE_PATH:
+        print(f"Using service account credentials from: {CRED_FILE_PATH}")
+        
+        # Manually read the JSON file to get the email
+        with open(CRED_FILE_PATH) as f:
+            service_account_info = json.load(f)
+        SERVICE_ACCOUNT_EMAIL = service_account_info['client_email']
+        print(f"Service Account Email: {SERVICE_ACCOUNT_EMAIL}")
 
-        # This is the explicit GEE authentication
-        ee_creds = ee.ServiceAccountCredentials(creds.get_service_account_email(), CRED_FILE)
+        # 1. Initialize Firebase Admin (this way is fine)
+        creds = credentials.Certificate(CRED_FILE_PATH)
+        firebase_admin.initialize_app(creds)
+        db = firestore.client()
+        print("Firestore Initialized.")
+
+        # 2. Initialize GEE (this way is more explicit)
+        ee_creds = ee.ServiceAccountCredentials(SERVICE_ACCOUNT_EMAIL, CRED_FILE_PATH)
         ee.Initialize(credentials=ee_creds, project="agrovision-47e38")
+        print("GEE Initialized.")
 
     else:
         # Fallback for local testing (if GOOGLE_APPLICATION_CREDENTIALS is not set)
         print("WARNING: No 'GOOGLE_APPLICATION_CREDENTIALS' env var found. Using default auth.")
         firebase_admin.initialize_app()
         ee.Initialize(project="agrovision-47e38")
-
-    db = firestore.client()
-    print("Firestore Initialized.")
-    print("GEE Initialized.")
+        db = firestore.client()
+        print("Firestore and GEE Initialized with default auth.")
 
 except Exception as e:
     print(f"CRITICAL: GEE or Firestore Initialization failed: {e}")
     db = None
-# --- END OF FIX ---
+# --- END OF FIX V2 ---
 
 app = Flask(__name__)
 CORS(app) 
+
+# --- 2. Load Model, Scaler, and Config ---
+# (The rest of your app.py file stays exactly the same)
+# ... (model loading, GEE functions, API endpoints) ...
 
 # (The rest of your app.py file stays exactly the same)
 # --- 2. Load Model, Scaler, and Config ---
