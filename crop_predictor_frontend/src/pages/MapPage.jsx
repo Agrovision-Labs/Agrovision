@@ -70,7 +70,7 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // --- Config ---
-const API_ENDPOINT = 'http://127.0.0.1:5000/predict_live';
+const API_ENDPOINT = 'https://agrovision-backend-ai7k.onrender.com/predict_live';
 const INITIAL_CENTER = [17.8739, 79.2583];
 const INITIAL_ZOOM = 7;
 const MAP_BOUNDS = [

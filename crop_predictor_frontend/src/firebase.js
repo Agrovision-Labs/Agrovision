@@ -40,7 +40,7 @@ const googleProvider = new GoogleAuthProvider();
 // We make this reusable
 const saveUserToBackend = async (user) => {
   try {
-    await fetch('http://127.0.0.1:5000/save_user', {
+    await fetch('https://agrovision-backend-ai7k.onrender.com/save_user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
