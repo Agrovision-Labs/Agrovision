@@ -15,7 +15,7 @@ from firebase_admin import credentials, firestore
 
 # --- 1. GEE, Firebase, and App Initialization ---
 try:
-    ee.Initialize(project="moonlit-state-475112-b5") 
+    ee.Initialize(project="agrovision-47e38")
     print("GEE Initialized.")
 except Exception as e:
     print(f"GEE Initialization failed: {e}")
